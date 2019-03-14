@@ -41,6 +41,9 @@ final public class PopupDialog: UIViewController {
     /// Width for iPad displays
     fileprivate let preferredWidth: CGFloat
 
+    /// If set true, set width of popup dialog to full width
+    fileprivate let useFullWidth: Bool
+    
     /// The completion handler
     fileprivate var completion: (() -> Void)?
 
@@ -138,6 +141,7 @@ final public class PopupDialog: UIViewController {
         buttonAlignment: NSLayoutConstraint.Axis = .vertical,
         transitionStyle: PopupDialogTransitionStyle = .bounceUp,
         preferredWidth: CGFloat = 340,
+        useFullWidth: Bool = false,
         tapGestureDismissal: Bool = true,
         panGestureDismissal: Bool = true,
         hideStatusBar: Bool = false,
@@ -147,6 +151,7 @@ final public class PopupDialog: UIViewController {
         self.preferredWidth = preferredWidth
         self.hideStatusBar = hideStatusBar
         self.completion = completion
+        self.useFullWidth = useFullWidth
         super.init(nibName: nil, bundle: nil)
 
         // Init the presentation manager
@@ -191,7 +196,7 @@ final public class PopupDialog: UIViewController {
 
     /// Replaces controller view with popup view
     public override func loadView() {
-        view = PopupDialogContainerView(frame: UIScreen.main.bounds, preferredWidth: preferredWidth)
+        view = PopupDialogContainerView(frame: UIScreen.main.bounds, preferredWidth: preferredWidth, useFullWidth: useFullWidth)
     }
 
     public override func viewWillAppear(_ animated: Bool) {

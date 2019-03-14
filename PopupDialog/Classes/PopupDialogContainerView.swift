@@ -139,6 +139,9 @@ final public class PopupDialogContainerView: UIView {
     // The preferred width for iPads
     fileprivate let preferredWidth: CGFloat
 
+    /// If set true, set width of popup dialog to full width
+    fileprivate let useFullWidth: Bool
+    
     // MARK: - Constraints
 
     /// The center constraint of the shadow container
@@ -146,8 +149,9 @@ final public class PopupDialogContainerView: UIView {
 
     // MARK: - Initializers
     
-    internal init(frame: CGRect, preferredWidth: CGFloat) {
+    internal init(frame: CGRect, preferredWidth: CGFloat, useFullWidth: Bool) {
         self.preferredWidth = preferredWidth
+        self.useFullWidth = useFullWidth
         super.init(frame: frame)
         setupViews()
     }
@@ -173,6 +177,8 @@ final public class PopupDialogContainerView: UIView {
         if UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad {
             let metrics = ["preferredWidth": preferredWidth]
             constraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|-(>=40)-[shadowContainer(==preferredWidth@900)]-(>=40)-|", options: [], metrics: metrics, views: views)
+        } else if (self.useFullWidth) {
+            constraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|[shadowContainer]|", options: [], metrics: nil, views: views)
         } else {
             constraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|-(>=10,==20@900)-[shadowContainer(<=340,>=300)]-(>=10,==20@900)-|", options: [], metrics: nil, views: views)
         }
